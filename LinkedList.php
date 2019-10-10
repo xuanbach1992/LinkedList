@@ -54,10 +54,10 @@ class LinkedList
             $previous = $this->firstNode;
             for ($i = 1; $i < $index; $i++) {
                 $previous = $current;
-                $current = $current->next;
+                $current = $current->link;
             }
-            $node->next = $current;
-            $previous->next = $node;
+            $node->link = $current;
+            $previous->link = $node;
             $this->count++;
         }
     }
