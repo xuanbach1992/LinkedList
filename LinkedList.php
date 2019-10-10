@@ -19,11 +19,8 @@ class LinkedList
     {
         $node = new Node($data);
         if ($this->firstNode) {
-//            $this->lastNode = $this->firstNode;
+            $this->lastNode = $this->firstNode;
             $node->link = $this->firstNode;
-        }
-        if (!$this->lastNode) {
-            $this->lastNode = $node;
         }
         $this->firstNode = $node;
         $this->count++;
@@ -32,28 +29,52 @@ class LinkedList
     public function addLastNode($data)
     {
         $node = new Node($data);
-        if ($this->lastNode) {
+        $node->link = $this->firstNode;
+        $this->firstNode = $node;
+        if (!$this->lastNode) {
             $this->lastNode = $node;
         }
-        $this->firstNode = $node;
         $this->count++;
     }
 
-    public function addNode($index, $data)
+    function size()
     {
-        if ($index == 0) {
-            $this->addFisrtNode($data);
+        return $this->count;
+    }
+
+    function addNode($index, $element)
+    {
+        if ($index <= 1) {
+            $this->addFisrtNode($element);
+        } else if ($index >= $this->size()) {
+            $this->addLastNode($element);
         } else {
-            $node = new Node($data);
-            $previous = $this->firstNode;
+            $node = new Node($element);
             $current = $this->firstNode;
-            for ($i = 0; $i < $index; $i++) {
+            $previous = $this->firstNode;
+            for ($i = 1; $i < $index; $i++) {
                 $previous = $current;
-                $current = $current->link;
+                $current = $current->next;
             }
-            $node->link = $current;
-            $previous->link = $node;
+            $node->next = $current;
+            $previous->next = $node;
+            $this->count++;
         }
-        $this->count++;
+    }
+
+    function showList()
+    {
+        $list = [];
+        $current = $this->firstNode;
+        while ($this->lastNode) {
+            array_push($list, $current->getData());
+            $current = $current->link;
+        }
+        return $list;
+    }
+
+    public function emptyList()
+    {
+        $this->firstNode = NULL;
     }
 }
